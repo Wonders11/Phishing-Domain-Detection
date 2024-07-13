@@ -1,0 +1,18 @@
+48
+
+	Create a folder with project name and open it with VSCode (Not Necessary:  inside that create .gitkeep file in order to push it on github since we cannot push empty folder on github.)
+	Create README.md file in VSCode and push it and create .gitignore file in github and pull it in local and update the environment name inside .gitignore file so that it should not push environment variables on github.
+	Create LICENSE file (Select Add file and name LICENSE then choose a license template. Select LICENSE based on requirements and fill year and name and select Review and Submit and Commit changes. Git pull in VSCode for getting LICENSE file in Local (git pull origin main).
+NOTE: License in required in case of production projects otherwise not required for personal projects
+	Create template.py file and add the standard code (update local package name) and run it for folder structure creation and push it on github.
+	Add all the required libraries inside requirements.txt file and to install local package include –e . 
+(Do not run it as it will be executed once we run init_setup.sh file)
+	Update code inside init_setup.sh file (we can update package name here – 2 places needs to be updated) and then run it.
+In windows, using shell script we face issue with activating environment. We can do it manually using command source activate ./env_name in gitbash terminal.
+	Update Setup.py file will all the necessary details about local package
+	Run shell script (.sh file) for which the command is bash file_name.sh
+(init_setup.sh file will call requirements.txt and in that we have written –e . to install local package which is mentioned inside setup.py file)
+	Update .gitignore file with new environment in order to ignore it.
+	Activate environment in bash terminal with command source activate ./env_name and push the code on github.
+	Pip list and ensure whether the local environment is installed or not.
+	Always activate environment and then start work
