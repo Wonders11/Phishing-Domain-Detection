@@ -16,3 +16,7 @@ In windows, using shell script we face issue with activating environment. We can
 10. Activate environment in bash terminal with command source activate ./env_name and push the code on github.
 11. Pip list and ensure whether the local environment is installed or not.
 12. Always activate environment and then start work
+
+Stage 2 - 
+
+1. Analysis in research.ipynb file - like 

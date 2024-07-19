@@ -1,0 +1,3 @@
+1. There are 1438 duplicated values which can be removed
+2. There are no categorical values
+3. 
