@@ -7,5 +7,7 @@ matplotlib
 Flask
 mlflow==2.2.2
 dvc
+imblearn
+pylab
 
 -e .
