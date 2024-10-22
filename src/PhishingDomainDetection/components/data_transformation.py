@@ -7,10 +7,10 @@ from dataclasses import dataclass
 from src.PhishingDomainDetection.exception import customexception
 from src.PhishingDomainDetection.logger import logging
 
-from sklearn.compose import ColumnTransformer
+from sklearn.compose import ColumnTransformer # for creating pipelines
 # from sklearn.impute import SimpleImputer # not required as there are no missing values
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler # very imp
 from sklearn.feature_selection import VarianceThreshold
 from imblearn.over_sampling import SMOTE
 
@@ -28,7 +28,7 @@ def OutlierHandler(df):
         upper_bridge = df[feature].quantile(0.75) + (IQR * 1.5)
         df.loc[df[feature] < lower_bridge, feature] = lower_bridge
         df.loc[df[feature] >= upper_bridge, feature] = upper_bridge
-        return df
+    return df
 
 # Feature Selection based on Correlation
 def correlation(dataset, threshold):
@@ -48,18 +48,15 @@ class DataTransformation:
     # this method is responsible for creation of .pkl
     def get_data_transformation(self,temp_df):
         try:
-            logging.info("Data Transformation initiated")
-
             # Getting numerical and categorical columns
-            # Observation: There are no categorical columns , therfore all other columns are numerical
+            # Observation: There are no categorical columns and all other columns are numerical
 
             # here main code for data transformation
-            data_df = temp_df.drop("phishing", axis=1)
-            numerical_columns = data_df.columns[data_df.dtypes!="object"]
+            numerical_columns = temp_df.columns[temp_df.dtypes!="object"]
 
             # Pipeline for numerical data transformation
             num_pipeline = Pipeline(steps=[
-            ('scaler', StandardScaler()),
+            ('scaler', StandardScaler())
             ])
             
             preprocessor = ColumnTransformer([
@@ -77,7 +74,7 @@ class DataTransformation:
             train_df = pd.read_csv(train_path)      
             test_df = pd.read_csv(test_path)
 
-            temp_df = train_df # for accessing numerical columns at later stage
+            # temp_df = train_df # for accessing numerical columns at later stage
 
             logging.info("Completed reading train and test data")
             logging.info(f'Train Dataframe Head : \n{train_df.head().to_string}')
@@ -89,6 +86,8 @@ class DataTransformation:
             X_test = test_df.drop("phishing", axis=1)
             y_test = test_df["phishing"]
 
+            logging.info("Data Transformation initiated")
+
             # Handling imbalanced data using SMOTE
             # Synthetic Minority Over-sampling Technique ,Resampling the minority class.
             logging.info("Handling imbalanced data using SMOTE")
@@ -96,11 +95,17 @@ class DataTransformation:
 
             # Fit the model to generate the data.
             oversampled_X_train, oversampled_Y_train = sm.fit_resample(X_train, y_train)
-            train_data = pd.concat([pd.DataFrame(oversampled_Y_train), pd.DataFrame(oversampled_X_train)], axis=1)
+            # train_data = pd.concat([pd.DataFrame(oversampled_Y_train), pd.DataFrame(oversampled_X_train)], axis=1)
+            train_data = pd.concat([pd.DataFrame(oversampled_Y_train).reset_index(drop=True), 
+                        pd.DataFrame(oversampled_X_train).reset_index(drop=True)], axis=1)
 
             oversampled_X_test, oversampled_Y_test = sm.fit_resample(X_test, y_test)
-            test_data = pd.concat([pd.DataFrame(oversampled_Y_test), pd.DataFrame(oversampled_X_test)], axis=1)
+            # test_data = pd.concat([pd.DataFrame(oversampled_Y_test), pd.DataFrame(oversampled_X_test)], axis=1)
+            test_data = pd.concat([pd.DataFrame(oversampled_Y_test).reset_index(drop=True), 
+                        pd.DataFrame(oversampled_X_test).reset_index(drop=True)], axis=1)
             logging.info("Imbalanced Dataset handled by SMOTE")
+
+            # Here we will get same balanced dataset that means same number of data for 2 class
 
             # Handling outliers in training dataset
             logging.info("Handling outliers in all features of training dataset")
@@ -120,15 +125,15 @@ class DataTransformation:
             
             logging.info("Feature selection started")
             #Feature selection:Finding correlated features and removing those features which are 85% correlated in training data
-            corr_features_train = correlation(X_train, 0.85)
+            corr_features = correlation(X_train, 0.85)
             #Removing correlated features from training data
-            X_train.drop(corr_features_train,axis=1,inplace=True)
+            X_train.drop(corr_features,axis=1,inplace=True)
             logging.info("Removed correlated features from training data")
 
             # Feature selection:Finding correlated features and removing those features which are 85% correlated in test data
-            corr_features_test = correlation(X_test, 0.85)
-            # Removing correlated features from test data
-            X_test.drop(corr_features_test,axis=1,inplace=True)
+            # corr_features_test = correlation(X_test, 0.85)
+            # Removing correlated features from test data (same features removed from X_train data)
+            X_test.drop(corr_features,axis=1,inplace=True)
             logging.info("Removed correlated features from test data")
 
             # Finding features having 0 varience in  training data
@@ -142,10 +147,10 @@ class DataTransformation:
             logging.info("Removed features having 0 varience from training data")
 
             # Finding features having 0 varience in  test data
-            var_thres = VarianceThreshold(threshold=0)
-            var_thres.fit(X_test)
-            constant_columns = [column for column in X_test.columns
-                            if column not in X_test.columns[var_thres.get_support()]]
+            # var_thres = VarianceThreshold(threshold=0)
+            # var_thres.fit(X_test)
+            # constant_columns = [column for column in X_test.columns
+            #                 if column not in X_test.columns[var_thres.get_support()]]
 
             # dropping features having 0 varience from test data
             X_test.drop(constant_columns,axis=1,inplace=True)
@@ -154,11 +159,21 @@ class DataTransformation:
             #creating new test and train dataframe
             df_final_train = pd.DataFrame(X_train)
             df_final_test = pd.DataFrame(X_test)
+
+            logging.info(f'df_final_train Dataframe Head : \n{df_final_train.head().to_string}')
+            logging.info(f'df_final_test Dataframe Head : \n{df_final_test.head().to_string}')
+
+            df_final_train.to_csv("artifacts/df_final_train.csv")
+            df_final_test.to_csv("artifacts/df_final_test.csv")
             
-            preprocessing_obj = self.get_data_transformation(temp_df) # temp_df is passed just to extract information about features
+            preprocessing_obj = self.get_data_transformation(df_final_train) # df_final_train is passed just to extract information about features
         
+            logging.info("Applying preprocessor object on training and testing data")
             X_train_transformed = preprocessing_obj.fit_transform(df_final_train)
+            pd.DataFrame(X_train_transformed).to_csv("artifacts/X_train_transformed.csv",index=False)
+
             X_test_transformed = preprocessing_obj.transform(df_final_test)
+            pd.DataFrame(X_test_transformed).to_csv("artifacts/X_test_transformed.csv",index=False)
             logging.info("Applied preprocessing on training and testing data")
 
             # Combine the features and target back into arrays

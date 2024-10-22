@@ -6,7 +6,6 @@ from src.PhishingDomainDetection.components.model_trainer import ModelTrainer
 
 from src.PhishingDomainDetection.logger import logging
 from src.PhishingDomainDetection.exception import customexception
-import pandas as pd
 
 # creation of data ingestion object
 obj = DataIngestion() # once we create object of data ingestion, configuration object will also be created
@@ -18,5 +17,5 @@ data_transformation = DataTransformation()
 train_arr, test_arr = data_transformation.initialize_data_transformation(train_data_path,test_data_path)
 
 # creation of Model Trainer object
-model_trainer_obj = ModelTrainer()
-model_trainer_obj.initiate_model_training(train_arr,test_arr)
+#model_trainer_obj = ModelTrainer()
+#model_trainer_obj.initiate_model_training(train_arr,test_arr)
