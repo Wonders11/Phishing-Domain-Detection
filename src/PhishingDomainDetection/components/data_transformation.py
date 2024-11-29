@@ -24,10 +24,14 @@ class DataTransformationConfig:
 def OutlierHandler(df):
     for feature in df.columns:
         IQR = df[feature].quantile(0.75) - df[feature].quantile(0.25)
+
+        # calculation of upper and lower boundary value
         lower_bridge = df[feature].quantile(0.25) - (IQR * 1.5)
         upper_bridge = df[feature].quantile(0.75) + (IQR * 1.5)
+
         df.loc[df[feature] < lower_bridge, feature] = lower_bridge
         df.loc[df[feature] >= upper_bridge, feature] = upper_bridge
+
     return df
 
 # Feature Selection based on Correlation
@@ -131,8 +135,7 @@ class DataTransformation:
             logging.info("Removed correlated features from training data")
 
             # Feature selection:Finding correlated features and removing those features which are 85% correlated in test data
-            # corr_features_test = correlation(X_test, 0.85)
-            # Removing correlated features from test data (same features removed from X_train data)
+            # Removing correlated features from test data (same features to be removed from X_test as removed from X_train data)
             X_test.drop(corr_features,axis=1,inplace=True)
             logging.info("Removed correlated features from test data")
 
@@ -146,13 +149,7 @@ class DataTransformation:
             X_train.drop(constant_columns, axis=1, inplace=True)
             logging.info("Removed features having 0 varience from training data")
 
-            # Finding features having 0 varience in  test data
-            # var_thres = VarianceThreshold(threshold=0)
-            # var_thres.fit(X_test)
-            # constant_columns = [column for column in X_test.columns
-            #                 if column not in X_test.columns[var_thres.get_support()]]
-
-            # dropping features having 0 varience from test data
+            # dropping features having 0 varience from test data (same features as dropped from train_data) 
             X_test.drop(constant_columns,axis=1,inplace=True)
             logging.info("Removed features having 0 varience from test data")
 
@@ -167,13 +164,15 @@ class DataTransformation:
             df_final_test.to_csv("artifacts/df_final_test.csv")
             
             preprocessing_obj = self.get_data_transformation(df_final_train) # df_final_train is passed just to extract information about features
-        
+            
+            numerical_columns = df_final_train.columns[df_final_train.dtypes!="object"]
+
             logging.info("Applying preprocessor object on training and testing data")
             X_train_transformed = preprocessing_obj.fit_transform(df_final_train)
-            pd.DataFrame(X_train_transformed).to_csv("artifacts/X_train_transformed.csv",index=False)
+            pd.DataFrame(X_train_transformed,columns=numerical_columns).to_csv("artifacts/X_train_transformed.csv",index=False)
 
             X_test_transformed = preprocessing_obj.transform(df_final_test)
-            pd.DataFrame(X_test_transformed).to_csv("artifacts/X_test_transformed.csv",index=False)
+            pd.DataFrame(X_test_transformed,columns=numerical_columns).to_csv("artifacts/X_test_transformed.csv",index=False)
             logging.info("Applied preprocessing on training and testing data")
 
             # Combine the features and target back into arrays

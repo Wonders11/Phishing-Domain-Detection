@@ -20,3 +20,20 @@ In windows, using shell script we face issue with activating environment. We can
 Stage 2 - 
 
 1. Analysis in research.ipynb file - like 
+
+
+
+
+
+
+
+
+
+
+
+
+# Things done only for learning purpose are not to be considered in pipeline Implementation
+1. SMOTE is to be done only for training purpose - Not to be included in pipeline
+2. Outliers are to be handled during learning - Not to be included in pipeline 
+3. Feature selection only done during learning - Not to be included in pipeline - only this features will be used from new data to predict
+4. 
