@@ -165,7 +165,7 @@ class DataTransformation:
             
             preprocessing_obj = self.get_data_transformation(df_final_train) # df_final_train is passed just to extract information about features
             
-            numerical_columns = df_final_train.columns[df_final_train.dtypes!="object"]
+            numerical_columns = df_final_train.columns[df_final_train.dtypes!="object"] # name of the columns
 
             logging.info("Applying preprocessor object on training and testing data")
             X_train_transformed = preprocessing_obj.fit_transform(df_final_train)
@@ -178,6 +178,13 @@ class DataTransformation:
             # Combine the features and target back into arrays
             train_arr = np.c_[X_train_transformed, y_train]
             test_arr = np.c_[X_test_transformed, y_test]
+
+            # creating dataframe and storing it in artifacts folder
+            final_train_data = pd.DataFrame(train_arr)
+            final_test_data = pd.DataFrame(test_arr)
+            final_train_data.to_csv("artifacts/final_train_data.csv")
+            final_test_data.to_csv("artifacts/final_test_data.csv")
+            logging.info("Saved final train and test dataframe to artifacts folder")
 
             # Save the preprocessor object
             save_object(

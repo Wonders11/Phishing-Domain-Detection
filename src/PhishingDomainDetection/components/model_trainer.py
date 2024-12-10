@@ -33,17 +33,6 @@ class ModelTrainer:
                 test_array[:,-1]
             )
 
-        #     models={
-        #     'LogisticRegression':LogisticRegression(),
-        #     'RandomForest':ensemble.RandomForestClassifier(),
-        #     'SVC':svm.SVC(),
-        #     'NaiveBayes':naive_bayes.GaussianNB(),
-        #     'DecisionTreeClassifier':DecisionTreeClassifier(),
-        #     'XGBoost':xgb.XGBClassifier()
-        # }
-
-            
-            
             # converting arrays to pandas dataframe
             X_train = pd.DataFrame(X_train)
             y_train = pd.DataFrame(y_train.ravel())
@@ -89,13 +78,10 @@ class ModelTrainer:
                  file_path=self.model_trainer_config.trained_model_file_path,
                  obj=classifier_obj
             )
-            # save_model(
-            #     file_path = self.model_trainer_config.trained_model_file_path,
-            #     obj = classifier_obj,
-            #     Model = model_name)
+            
             logging.info('Model Saved')
             logging.info('Model Selection and tuning Completed')
-            return model_name
+            logging.info(model_name)
           
 
         except Exception as e:

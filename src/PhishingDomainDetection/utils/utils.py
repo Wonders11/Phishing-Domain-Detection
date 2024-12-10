@@ -15,7 +15,6 @@ from sklearn.naive_bayes import GaussianNB
 import xgboost as xgb
 from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import confusion_matrix,classification_report,accuracy_score,roc_auc_score
-import shutil
 
 
 def save_object(file_path, obj):
@@ -29,23 +28,6 @@ def save_object(file_path, obj):
 
     except Exception as e:
         raise customexception(e, sys)
-
-"""   
-def save_model(file_path,model,filename):
-    model_directory = 'models/'
-    try:
-        path = os.path.join(model_directory,filename) #create seperate directory for each cluster
-        if os.path.isdir(path): #remove previously existing models for each clusters
-            shutil.rmtree(model_directory)
-            os.makedirs(path)
-        else:
-            os.makedirs(path) #
-            with open(path +'/' + filename+'.pkl','wb') as f:
-                pickle.dump(model, f) # save the model to file
-
-    except Exception as e:
-        raise e
-"""
 
 def save_model(file_path, model, filename):
     """
@@ -146,30 +128,6 @@ def find_best_model(X_train,y_train):
 
     except Exception as e:
         raise e
-
-    
-# def evaluate_model(X_train,y_train,X_test,y_test,models):
-#     try:
-#         report = {}
-#         for i in range(len(models)):
-#             model = list(models.values())[i]
-#             # Train model
-#             model.fit(X_train,y_train)
-
-#             # Predict Testing data
-#             y_test_pred =model.predict(X_test)
-
-#             # Get R2 scores for train and test data
-#             #train_model_score = r2_score(ytrain,y_train_pred)
-#             test_model_score = r2_score(y_test,y_test_pred)
-
-#             report[list(models.keys())[i]] =  test_model_score
-
-#         return report
-
-    # except Exception as e:
-    #     logging.info('Exception occured during model training')
-    #     raise customexception(e,sys)
     
 def load_object(file_path):
     try:
