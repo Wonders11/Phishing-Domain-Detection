@@ -1,98 +1,179 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Domain Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .form-group input:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 5px rgba(37, 117, 252, 0.5);
+        }
+    </style>
+</head>
 <body>
-<form action="{{url_for('predict_datapoint')}}" method="POST">
-    <div class="form-group">
-        <label for="qty_slash_url">qty_slash_url:</label>
-        <input type="text" id="qty_slash_url" name="qty_slash_url" placeholder="Enter qty_slash_url value (float)" required>
-    </div>
+    <header>
+        <h1>Phishing Domain Detection</h1>
+    </header>
+    <form action="{{url_for('predict_datapoint')}}" method="POST">
+        <h2>Phishing Domain Detection Inputs</h2>
+        <div class="form-group">
+            <label for="qty_slash_url">qty_slash_url:</label>
+            <input type="text" id="qty_slash_url" name="qty_slash_url" placeholder="Enter qty_slash_url value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="length_url">length_url:</label>
-        <input type="text" id="length_url" name="length_url" placeholder="Enter length_url value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="length_url">length_url:</label>
+            <input type="text" id="length_url" name="length_url" placeholder="Enter length_url value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_dot_domain">qty_dot_domain:</label>
-        <input type="text" id="qty_dot_domain" name="qty_dot_domain" placeholder="Enter qty_dot_domain value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_dot_domain">qty_dot_domain:</label>
+            <input type="text" id="qty_dot_domain" name="qty_dot_domain" placeholder="Enter qty_dot_domain value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_vowels_domain">qty_vowels_domain:</label>
-        <input type="text" id="qty_vowels_domain" name="qty_vowels_domain" placeholder="Enter qty_vowels_domain value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_vowels_domain">qty_vowels_domain:</label>
+            <input type="text" id="qty_vowels_domain" name="qty_vowels_domain" placeholder="Enter qty_vowels_domain value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="domain_length">domain_length:</label>
-        <input type="text" id="domain_length" name="domain_length" placeholder="Enter domain_length value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="domain_length">domain_length:</label>
+            <input type="text" id="domain_length" name="domain_length" placeholder="Enter domain_length value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_dot_directory">qty_dot_directory:</label>
-        <input type="text" id="qty_dot_directory" name="qty_dot_directory" placeholder="Enter qty_dot_directory value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_dot_directory">qty_dot_directory:</label>
+            <input type="text" id="qty_dot_directory" name="qty_dot_directory" placeholder="Enter qty_dot_directory value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_hyphen_directory">qty_hyphen_directory:</label>
-        <input type="text" id="qty_hyphen_directory" name="qty_hyphen_directory" placeholder="Enter qty_hyphen_directory value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_hyphen_directory">qty_hyphen_directory:</label>
+            <input type="text" id="qty_hyphen_directory" name="qty_hyphen_directory" placeholder="Enter qty_hyphen_directory value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_underline_directory">qty_underline_directory:</label>
-        <input type="text" id="qty_underline_directory" name="qty_underline_directory" placeholder="Enter qty_underline_directory value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_underline_directory">qty_underline_directory:</label>
+            <input type="text" id="qty_underline_directory" name="qty_underline_directory" placeholder="Enter qty_underline_directory value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="file_length">file_length:</label>
-        <input type="text" id="file_length" name="file_length" placeholder="Enter file_length value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="file_length">file_length:</label>
+            <input type="text" id="file_length" name="file_length" placeholder="Enter file_length value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="time_response">time_response:</label>
-        <input type="text" id="time_response" name="time_response" placeholder="Enter time_response value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="time_response">time_response:</label>
+            <input type="text" id="time_response" name="time_response" placeholder="Enter time_response value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="asn_ip">asn_ip:</label>
-        <input type="text" id="asn_ip" name="asn_ip" placeholder="Enter asn_ip value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="asn_ip">asn_ip:</label>
+            <input type="text" id="asn_ip" name="asn_ip" placeholder="Enter asn_ip value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="time_domain_activation">time_domain_activation:</label>
-        <input type="text" id="time_domain_activation" name="time_domain_activation" placeholder="Enter time_domain_activation value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="time_domain_activation">time_domain_activation:</label>
+            <input type="text" id="time_domain_activation" name="time_domain_activation" placeholder="Enter time_domain_activation value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="time_domain_expiration">time_domain_expiration:</label>
-        <input type="text" id="time_domain_expiration" name="time_domain_expiration" placeholder="Enter time_domain_expiration value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="time_domain_expiration">time_domain_expiration:</label>
+            <input type="text" id="time_domain_expiration" name="time_domain_expiration" placeholder="Enter time_domain_expiration value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_nameservers">qty_nameservers:</label>
-        <input type="text" id="qty_nameservers" name="qty_nameservers" placeholder="Enter qty_nameservers value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_nameservers">qty_nameservers:</label>
+            <input type="text" id="qty_nameservers" name="qty_nameservers" placeholder="Enter qty_nameservers value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_mx_servers">qty_mx_servers:</label>
-        <input type="text" id="qty_mx_servers" name="qty_mx_servers" placeholder="Enter qty_mx_servers value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="qty_mx_servers">qty_mx_servers:</label>
+            <input type="text" id="qty_mx_servers" name="qty_mx_servers" placeholder="Enter qty_mx_servers value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="ttl_hostname">ttl_hostname:</label>
-        <input type="text" id="ttl_hostname" name="ttl_hostname" placeholder="Enter ttl_hostname value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="ttl_hostname">ttl_hostname:</label>
+            <input type="text" id="ttl_hostname" name="ttl_hostname" placeholder="Enter ttl_hostname value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="tls_ssl_certificate">tls_ssl_certificate:</label>
-        <input type="text" id="tls_ssl_certificate" name="tls_ssl_certificate" placeholder="Enter tls_ssl_certificate value (float)" required>
-    </div>
+        <div class="form-group">
+            <label for="tls_ssl_certificate">tls_ssl_certificate:</label>
+            <input type="text" id="tls_ssl_certificate" name="tls_ssl_certificate" placeholder="Enter tls_ssl_certificate value (float)" required>
+        </div>
 
-    <div class="form-group">
-        <label for="qty_redirects">qty_redirects:</label>
-        <input type="text" id="qty_redirects" name="qty_redirects" placeholder="Enter qty_redirects value (float)" required>
-    </div> 
+        <div class="form-group">
+            <label for="qty_redirects">qty_redirects:</label>
+            <input type="text" id="qty_redirects" name="qty_redirects" placeholder="Enter qty_redirects value (float)" required>
+        </div> 
 
-    <div style="clear:both;"></div>
-    <input type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>
