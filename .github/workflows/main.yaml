@@ -46,7 +46,7 @@ jobs:
         IMAGE_TAG: latest
       
       # Command for building the image
-      # pushing the image to AWS ECR
+      # pushing the image to AWS ECR repo
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG . 
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG  
