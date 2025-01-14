@@ -15,3 +15,5 @@ Machine learning algorithms used :
 4. Random Forest Classification
 5. XGBoost Classification
 6. Gradient Boosting Classification
+
+App Link:https://7sg2h3z3yb.ap-south-1.awsapprunner.com

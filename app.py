@@ -15,7 +15,7 @@ app = Flask(__name__)
 def home_page():
     return render_template("index.html")
 
-# open browser and search localhost:5000 and it will show o/p
+# open browser and search localhost:8080 and it will show o/p
 
 @app.route('/predict',methods=["GET","POST"])
 def predict_datapoint(): # code for prediction will be here
