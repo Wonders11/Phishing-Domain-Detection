@@ -32,7 +32,7 @@ jobs:
         # configure access and secret key in order to make connection from github server to AWS server
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # needs to be updated for new project from AWS server
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # needs to be updated for new project from AWS server
-        aws-region: us-east-1 # needs to be updated for new project from AWS server
+        aws-region: eu-north-1 # needs to be updated for new project from AWS server
       
       # Logging in to ECR
     - name: Login to Amazon ECR
